@@ -27,6 +27,7 @@ public class View {
     JFrame frame = new JFrame();
     
     public View(){
+     
         
     }
 }
