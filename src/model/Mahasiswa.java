@@ -15,6 +15,10 @@ public class Mahasiswa {
     private int Angkatan;
     private String Kode_jurusan;
 
+    public Mahasiswa(){
+        
+    }
+    
     public Mahasiswa(String Nama, String Nim, int Angkatan, String Kode_jurusan) {
         this.Nama = Nama;
         this.Nim = Nim;
