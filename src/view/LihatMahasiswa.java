@@ -9,12 +9,15 @@ package view;
  *
  * @author hp
  */
-
+import model.*;
+import controller.Controller;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,14 +27,16 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-public class View implements ActionListener{
-    JFrame frame = new JFrame();
+public class LihatMahasiswa implements ActionListener{
+    JFrame frame = new JFrame("INSERT JURUSAN");
     JButton insert_jurusan = new JButton("INSERT JURUSAN");
     JButton lihat_jurusan = new JButton("LIHAT JURUSAN");
     JButton insert_mahasiswa = new JButton("INSERT MAHASISWA");
-    JButton lihat_mahasiswa = new JButton("LIHAT MAHASISWA");
+    Controller control = new Controller();
+    JLabel data;
+
     
-    public View(){
+    public LihatMahasiswa(Jurusan jurus){
         frame.setSize(1000, 700);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
@@ -42,22 +47,23 @@ public class View implements ActionListener{
         insert_jurusan.addActionListener(this);
         lihat_jurusan.addActionListener(this);
         insert_mahasiswa.addActionListener(this);
-        lihat_mahasiswa.addActionListener(this);
         frame.add(insert_jurusan);
         frame.add(lihat_jurusan);
-        frame.add(lihat_mahasiswa);
         frame.add(insert_mahasiswa);
+        String datas = "";
+        ArrayList<Mahasiswa> mahas = jurus.getListMhs();
+        for(int i = 0; i < mahas.size(); i++){
+            Mahasiswa mhs = mahas.get(i);
+            datas = mhs.getNama() + " - " + mhs.getNim() + "\n";
+        }
         
+        data = new JLabel(datas);
         
-        
-        
-        
-        
-        
-        
+        data.setBounds(350, 50, 500, 500);
+        frame.add(data);
         frame.setVisible(true);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent ae) {
         String command = ae.getActionCommand();
@@ -72,10 +78,6 @@ public class View implements ActionListener{
                 break;
             case "INSERT MAHASISWA":
                 new InsertMahasiswa();
-                frame.setVisible(false);
-                break;
-            case "LIHAT MAHASISWA":
-                new PreLihatMahasiswa();
                 frame.setVisible(false);
                 break;
             default:

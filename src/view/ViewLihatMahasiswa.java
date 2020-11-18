@@ -9,12 +9,15 @@ package view;
  *
  * @author hp
  */
-
+import model.*;
+import controller.Controller;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -24,14 +27,20 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-public class View implements ActionListener{
-    JFrame frame = new JFrame();
+public class ViewLihatMahasiswa implements ActionListener{
+    JFrame frame = new JFrame("INSERT JURUSAN");
     JButton insert_jurusan = new JButton("INSERT JURUSAN");
     JButton lihat_jurusan = new JButton("LIHAT JURUSAN");
     JButton insert_mahasiswa = new JButton("INSERT MAHASISWA");
-    JButton lihat_mahasiswa = new JButton("LIHAT MAHASISWA");
+    Controller control = new Controller();
+    JLabel labjur = new JLabel("Jurusan");
+    JButton submit = new JButton("SUBMIT");
+    ArrayList<Mahasiswa> mhs;
+    String[] listmhs;
+    JComboBox mahas;
+
     
-    public View(){
+    public ViewLihatMahasiswa(Jurusan jurus){
         frame.setSize(1000, 700);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
@@ -42,19 +51,27 @@ public class View implements ActionListener{
         insert_jurusan.addActionListener(this);
         lihat_jurusan.addActionListener(this);
         insert_mahasiswa.addActionListener(this);
-        lihat_mahasiswa.addActionListener(this);
         frame.add(insert_jurusan);
         frame.add(lihat_jurusan);
-        frame.add(lihat_mahasiswa);
         frame.add(insert_mahasiswa);
+        mhs = jurus.getListMhs();
+        listmhs = new String[mhs.size()];
+        for(int i = 0; i < mhs.size(); i++){
+            Mahasiswa mas = mhs.get(i);
+            listmhs[i] = mas.getNim();
+        }
         
+        mahas = new JComboBox(listmhs);
+        labjur.setBounds(400, 300, 100, 20);
+        mahas.setBounds(510, 300, 100, 20);
+        submit.setBounds(480, 380, 100, 70);
+        submit.addActionListener(this);
         
+        frame.add(mahas);
+        frame.add(labjur);
+        frame.add(submit);
         
-        
-        
-        
-        
-        
+                
         frame.setVisible(true);
     }
 
@@ -62,6 +79,11 @@ public class View implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         String command = ae.getActionCommand();
         switch(command) {
+            case "SUBMIT":
+                
+                frame.setVisible(false);
+                System.out.println("Sudah Disini");
+                break;
             case "INSERT JURUSAN": 
                 new InsertJurusan();
                 frame.setVisible(false);
@@ -72,10 +94,6 @@ public class View implements ActionListener{
                 break;
             case "INSERT MAHASISWA":
                 new InsertMahasiswa();
-                frame.setVisible(false);
-                break;
-            case "LIHAT MAHASISWA":
-                new PreLihatMahasiswa();
                 frame.setVisible(false);
                 break;
             default:

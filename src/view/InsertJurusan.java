@@ -5,11 +5,13 @@
  */
 package view;
 
+
 /**
  *
  * @author hp
  */
-
+import model.*;
+import controller.Controller;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -24,14 +26,19 @@ import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-public class View implements ActionListener{
-    JFrame frame = new JFrame();
+public class InsertJurusan implements ActionListener{
+    JFrame frame = new JFrame("INSERT JURUSAN");
     JButton insert_jurusan = new JButton("INSERT JURUSAN");
     JButton lihat_jurusan = new JButton("LIHAT JURUSAN");
     JButton insert_mahasiswa = new JButton("INSERT MAHASISWA");
-    JButton lihat_mahasiswa = new JButton("LIHAT MAHASISWA");
+    JLabel labnama = new JLabel("Nama");
+    JLabel labkode = new JLabel("Kode");
+    JTextField textnama = new JTextField();
+    JTextField textkode = new JTextField();
+    JButton submit = new JButton("SUBMIT");
+    Controller control = new Controller();
     
-    public View(){
+    public InsertJurusan(){
         frame.setSize(1000, 700);
         frame.setLocationRelativeTo(null);
         frame.setLayout(null);
@@ -42,11 +49,22 @@ public class View implements ActionListener{
         insert_jurusan.addActionListener(this);
         lihat_jurusan.addActionListener(this);
         insert_mahasiswa.addActionListener(this);
-        lihat_mahasiswa.addActionListener(this);
         frame.add(insert_jurusan);
         frame.add(lihat_jurusan);
-        frame.add(lihat_mahasiswa);
         frame.add(insert_mahasiswa);
+        
+        labnama.setBounds(400, 200, 100, 20);
+        labkode.setBounds(400, 230, 100, 20);
+        textnama.setBounds(530, 200, 300, 20);
+        textkode.setBounds(530, 230, 300, 20);
+        submit.setBounds(550, 280, 100, 50);
+        submit.addActionListener(this);
+        frame.add(submit);
+        frame.add(labnama);
+        frame.add(labkode);
+        frame.add(textnama);
+        frame.add(textkode);
+        
         
         
         
@@ -62,6 +80,19 @@ public class View implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         String command = ae.getActionCommand();
         switch(command) {
+            case "SUBMIT":
+                String strnama = textnama.getText();
+                String strkode = textkode.getText();
+                Jurusan jurus = new Jurusan();
+                jurus.setNama(strnama);
+                jurus.setKode(strkode);
+                boolean insert = control.addJurusan(jurus);
+                if(insert == true){
+                    frame.setVisible(false);
+                    JOptionPane.showMessageDialog(null,"Jurusan Sudah Di Tambah");
+                    new View();
+                }
+                break;
             case "INSERT JURUSAN": 
                 new InsertJurusan();
                 frame.setVisible(false);
@@ -72,10 +103,6 @@ public class View implements ActionListener{
                 break;
             case "INSERT MAHASISWA":
                 new InsertMahasiswa();
-                frame.setVisible(false);
-                break;
-            case "LIHAT MAHASISWA":
-                new PreLihatMahasiswa();
                 frame.setVisible(false);
                 break;
             default:
