@@ -24,6 +24,7 @@ public class DBHandler {
     private String username = "root";
     private String password = "";
 
+    
     private Connection logOn() {
         try {
             //Load JDBC Driver
