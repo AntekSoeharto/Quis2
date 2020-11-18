@@ -29,6 +29,7 @@ public class View implements ActionListener{
     JButton insert_jurusan = new JButton("INSERT JURUSAN");
     JButton lihat_jurusan = new JButton("LIHAT JURUSAN");
     JButton insert_mahasiswa = new JButton("INSERT MAHASISWA");
+    JButton lihat_mahasiswa = new JButton("LIHAT MAHASISWA");
     
     public View(){
         frame.setSize(1000, 700);
@@ -41,8 +42,10 @@ public class View implements ActionListener{
         insert_jurusan.addActionListener(this);
         lihat_jurusan.addActionListener(this);
         insert_mahasiswa.addActionListener(this);
+        lihat_mahasiswa.addActionListener(this);
         frame.add(insert_jurusan);
         frame.add(lihat_jurusan);
+        frame.add(lihat_mahasiswa);
         frame.add(insert_mahasiswa);
         
         
@@ -69,6 +72,10 @@ public class View implements ActionListener{
                 break;
             case "INSERT MAHASISWA":
                 new InsertMahasiswa();
+                frame.setVisible(false);
+                break;
+            case "LIHAT MAHASISWA":
+                new PreLihatMahasiswa();
                 frame.setVisible(false);
                 break;
             default:
