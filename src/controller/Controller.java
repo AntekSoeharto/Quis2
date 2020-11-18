@@ -40,6 +40,8 @@ public class Controller {
         }
     }
      
+    
+     
      public static ArrayList<Jurusan> getallJurusan(){
         conn.connect();
         ArrayList<Jurusan> jurus = new ArrayList<Jurusan>();
@@ -59,6 +61,24 @@ public class Controller {
          return jurus;
      }
      
+     public static Jurusan getJurusan(String kode){
+        conn.connect();
+        String query = "SELECT * FROM jurusan where kode = '" + kode + "' ";
+        Jurusan jur = new Jurusan();
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                jur.setKode(rs.getString("kode"));
+                jur.setNama(rs.getString("nama"));
+                jur.setListMhs(getallMahasiswa(rs.getString("kode")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+         return jur;
+     }
+     
      public static boolean addMahasiswa(Mahasiswa mhs){ 
         conn.connect();
         String query = "INSERT INTO mahasiswa VALUES(?,?,?,?)";
@@ -76,5 +96,25 @@ public class Controller {
         }
      }
      
+     public static ArrayList<Mahasiswa> getallMahasiswa(String kode_mhs){
+        conn.connect();
+        ArrayList<Mahasiswa> mhs = new ArrayList<Mahasiswa>();
+        String query = "SELECT * FROM mahasiswa where kode_jurusan = '" + kode_mhs + "' ";
+        try {
+            Statement stmt = conn.con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                Mahasiswa mahas = new Mahasiswa();
+                mahas.setNim(rs.getString("nim"));
+                mahas.setNama(rs.getString("nama"));
+                mahas.setAngkatan(Integer.parseInt(rs.getString("angkatan")));
+                mahas.setKode_jurusan(rs.getString("nama"));
+                mhs.add(mahas);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+         return mhs;
+     }
      
 }
