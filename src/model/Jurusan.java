@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 
-public class Jurusan {
+public class Jurusan{
     private String Kode;
     private String Nama;
     private ArrayList<Mahasiswa> listMhs = new ArrayList<Mahasiswa>();
