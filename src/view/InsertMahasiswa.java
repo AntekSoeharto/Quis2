@@ -119,6 +119,7 @@ public class InsertMahasiswa implements ActionListener{
                     JOptionPane.showMessageDialog(null,"Mahasiswa Sudah Di Tambah");
                     new View();
                 }
+                
                 break;
             case "INSERT JURUSAN": 
                 new InsertJurusan();
