@@ -16,6 +16,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,12 +32,13 @@ public class LihatJurusan implements ActionListener{
     JButton insert_jurusan = new JButton("INSERT JURUSAN");
     JButton lihat_jurusan = new JButton("LIHAT JURUSAN");
     JButton insert_mahasiswa = new JButton("INSERT MAHASISWA");
-    JLabel labnama = new JLabel("Nama");
-    JLabel labkode = new JLabel("Kode");
-    JTextField textnama = new JTextField();
-    JTextField textkode = new JTextField();
-    JButton submit = new JButton("SUBMIT");
     Controller control = new Controller();
+    JLabel labjur = new JLabel("Jurusan");
+    JButton submit = new JButton("SUBMIT");
+    ArrayList<Jurusan> jurus;
+    String[] listjurus;
+    JComboBox jurusan;
+
     
     public LihatJurusan(){
         frame.setSize(1000, 700);
@@ -52,26 +55,25 @@ public class LihatJurusan implements ActionListener{
         frame.add(lihat_jurusan);
         frame.add(insert_mahasiswa);
         
-        labnama.setBounds(400, 200, 100, 20);
-        labkode.setBounds(400, 230, 100, 20);
-        textnama.setBounds(530, 200, 300, 20);
-        textkode.setBounds(530, 230, 300, 20);
-        submit.setBounds(550, 280, 100, 50);
+        jurus = control.getallJurusan();
+        
+        listjurus = new String[jurus.size()];
+        for(int i = 0; i < jurus.size(); i++){
+            Jurusan jurs = jurus.get(i);
+            listjurus[i] = jurs.getKode();
+        }
+        
+        jurusan = new JComboBox(listjurus);
+        labjur.setBounds(400, 300, 100, 20);
+        jurusan.setBounds(510, 300, 100, 20);
+        submit.setBounds(480, 380, 100, 70);
         submit.addActionListener(this);
+        
+        frame.add(jurusan);
+        frame.add(labjur);
         frame.add(submit);
-        frame.add(labnama);
-        frame.add(labkode);
-        frame.add(textnama);
-        frame.add(textkode);
         
-        
-        
-        
-        
-        
-        
-        
-        
+                
         frame.setVisible(true);
     }
 
@@ -80,17 +82,10 @@ public class LihatJurusan implements ActionListener{
         String command = ae.getActionCommand();
         switch(command) {
             case "SUBMIT":
-                String strnama = textnama.getText();
-                String strkode = textkode.getText();
-                Jurusan jurus = new Jurusan();
-                jurus.setNama(strnama);
-                jurus.setKode(strkode);
-                boolean insert = control.addJurusan(jurus);
-                if(insert == true){
-                    frame.setVisible(false);
-                    JOptionPane.showMessageDialog(null,"Jurusan Sudah Di Tambah");
-                    new View();
-                }
+                Jurusan jurs = control.getJurusan(String.valueOf(jurusan.getSelectedItem()));
+                new LihatMahasiswa(jurs);
+                frame.setVisible(false);
+                System.out.println("Sudah Disini");
                 break;
             case "INSERT JURUSAN": 
                 new InsertJurusan();
